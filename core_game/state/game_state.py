@@ -1,3 +1,5 @@
+from collections import deque
+
 from core_game.state.action import Action
 from core_game.state.player import Player
 
@@ -24,4 +26,14 @@ class GameState:
         indicates player 0 won and 1 indicates player 1 won.
         If the action requires further input from one or both of the players, the resulting GameState will reflect this.
         """
-        pass
+        try:
+            events_to_do = deque()
+            events_to_do.append(action.get_event(self))
+            while len(events_to_do) != 0:
+                event = events_to_do.popleft()
+                event = self.preproces_event(event)
+                new_events = self.handle_event(event)
+                for elt in new_events:
+                    events_to_do.append(elt)
+        except:
+            return "error: fuck"
