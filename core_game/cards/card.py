@@ -26,6 +26,9 @@ class Card(abc):
     def get_text(self) -> str:
         pass
 
+    def get_id(self) -> int:
+        pass
+
     def allow_action(self, action: Action) -> bool:
         return True
 
