@@ -11,7 +11,6 @@ class Card(abc):
         self.preprocessors = preprocessors
         self.responders = responders
 
-
     @abc.abstractmethod
     def get_name(self) -> str:
         pass
@@ -35,9 +34,9 @@ class Card(abc):
         Accept an event. Return 
         """
         type = event.type
-        if type in self.responders:
+        if type in self.preprocessors:
             return self.responder[type].respond(event, state)
-        return (False,event)
+        return (False, event)
 
     def respond_to_event(self, event: Event, state: GameState) -> list[Event]:
         """

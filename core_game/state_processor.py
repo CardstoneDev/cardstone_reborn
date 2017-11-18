@@ -1,7 +1,7 @@
 from core_game.state_serialization import string_to_action, string_to_game_state, game_state_to_string
 
 
-def confirm(action_str : str, state_str : str) -> bool:
+def confirm(action_str: str, state_str: str) -> bool:
     """
     Takes an action and an input state, and returns
     a boolean whether that action is valid in the given input state
@@ -10,7 +10,8 @@ def confirm(action_str : str, state_str : str) -> bool:
     state = string_to_game_state(state_str)
     return state.can_do(action)
 
-def process(action_str : str, state_str : str) -> str:
+
+def process(action_str: str, state_str: str) -> str:
     """
     Takes an action and an input state, and returns
     a stringified version of the result of
@@ -24,7 +25,7 @@ def process(action_str : str, state_str : str) -> str:
     return game_state_to_string(state)
 
 
-def analyze(state_str : str) -> str:
+def analyze(state_str: str) -> str:
     """
     Takes in the result of a call to process.
     If that result was a valid game state, returns "ok".
@@ -34,7 +35,8 @@ def analyze(state_str : str) -> str:
     """
     pass
 
-def render_string(state_str : str, player_num : int) -> str:
+
+def render_string(state_str: str, player_num: int) -> str:
     """
     Takes a string representing a board state, and
     a number representing a player number: 0 or 1.
