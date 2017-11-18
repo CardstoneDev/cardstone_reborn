@@ -9,13 +9,6 @@ class Devotion(abc):
         return True
 
     @abc.abstractmethod
-    def preprocess_event(self, event: Event) -> (bool, Event):
-        """
-        Accept an event. Return
-        """
-        pass
-
-    @abc.abstractmethod
     def respond_to_event(self, event: Event) -> list[Event]:
         """
         Accept an event. Return a list of new events

@@ -2,6 +2,7 @@ import abc
 
 from core_game.events.event import Event
 from core_game.state.action import Action
+from core_game.state.game_state import GameState
 
 
 class Card(abc):
@@ -29,16 +30,16 @@ class Card(abc):
     def allow_action(self, action: Action) -> bool:
         return True
 
-    def preprocess_event(self, event: Event) -> (bool, Event):
+    def preprocess_event(self, event: Event, state: GameState) -> (bool, Event):
         """
         Accept an event. Return 
         """
         type = event.type
         if type in self.responders:
-            return self.responder[type].respond(event)
+            return self.responder[type].respond(event, state)
         return (False,event)
 
-    def respond_to_event(self, event : Event) -> list[Event]:
+    def respond_to_event(self, event: Event, state: GameState) -> list[Event]:
         """
         Accept an event. Return a list of new events
         that this card wishes to create and add to the event q.
@@ -46,5 +47,5 @@ class Card(abc):
         """
         type = event.type
         if type in self.responders:
-            return self.responder[type].respond(event)
+            return self.responder[type].respond(event, state)
         return []

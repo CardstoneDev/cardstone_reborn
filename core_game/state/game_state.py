@@ -1,5 +1,7 @@
 from collections import deque
 
+from core_game.cards.card import Card
+from core_game.events.event import Event
 from core_game.state.action import Action
 from core_game.state.player import Player
 
@@ -17,6 +19,27 @@ class GameState:
         """
         pass
 
+    def preprocess_event(self, event: Event) -> Event:
+        already_processed = set()  # type: set[Card]
+        done = False
+        while not done:
+            modifier, event = self.p1.cards.preprocess_event(event, self, already_processed)
+            if modifier is not None:
+                already_processed.add(modifier)
+                continue
+            modifier, event = self.p0.cards.preprocess_event(event, self, already_processed)
+            if modifier is not None:
+                already_processed.add(modifier)
+                continue
+            else:
+                done = True
+        return event
+
+    def handle_event(self, event: Event) -> list[Event]:
+        lst = self.p1.respond_to_event(event, self)
+        lst += self.p0.respond_to_event(event, self)
+        return lst
+
     def do(self, action: Action) -> str:
         """
         Takes in an action and attempts to perform that action on this state.
@@ -27,11 +50,11 @@ class GameState:
         If the action requires further input from one or both of the players, the resulting GameState will reflect this.
         """
         try:
-            events_to_do = deque()
+            events_to_do = deque()  # type: deque[Event]
             events_to_do.append(action.get_event(self))
             while len(events_to_do) != 0:
                 event = events_to_do.popleft()
-                event = self.preproces_event(event)
+                event = self.preprocess_event(event)
                 new_events = self.handle_event(event)
                 for elt in new_events:
                     events_to_do.append(elt)
