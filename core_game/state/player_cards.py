@@ -30,5 +30,5 @@ class PlayerCards:
         lst = []
         for elt in self.all_zones:
             for card in elt.cards:
-                lst += card.respond_to_event(event, state)
+                lst += card.preprocess_event(event, state)
         return lst

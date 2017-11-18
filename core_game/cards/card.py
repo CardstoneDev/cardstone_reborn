@@ -1,6 +1,8 @@
 import abc
 
 from core_game.events.event import Event
+from core_game.events.event_preprocessor import EventPreprocessor
+from core_game.events.event_responder import EventResponder
 from core_game.state.action import Action
 from core_game.state.game_state import GameState
 
@@ -38,7 +40,9 @@ class Card(abc):
         """
         type = event.type
         if type in self.preprocessors:
-            return self.responder[type].respond(event, state)
+            responded, event = self.responders[type].respond_to_event(event, state)
+            if responded:
+                return responded, event
         return (False, event)
 
     def respond_to_event(self, event: Event, state: GameState) -> list[Event]:
