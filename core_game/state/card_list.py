@@ -12,7 +12,7 @@ class CardList:
         """
         finds the first card that modifies this event, and returns a tuple of card,
         event, containing that card and the new version of the event.
-        If no cards want to modify it, returns the original event and none
+        If no cards want to modify it, returns the original event and none of
         """
         for elt in self.cards:
             if elt not in already_processed:
