@@ -1,8 +1,12 @@
 import abc
-class Card(abc):
 
-    def __init__(self,preprocessors : dict[EventType, EventPreprocessor],
-                 responders : dict[EventType, EventResponder]):
+from core_game.events.event import Event
+from core_game.state.action import Action
+
+
+class Card(abc):
+    def __init__(self, preprocessors: dict[str, EventPreprocessor],
+                 responders: dict[str, EventResponder]):
         self.preprocessors = preprocessors
         self.responders = responders
 
@@ -22,7 +26,10 @@ class Card(abc):
     def get_text(self) -> str:
         pass
 
-    def preprocess_event(self, event : Event) -> Event:
+    def allow_action(self, action: Action) -> bool:
+        return True
+
+    def preprocess_event(self, event: Event) -> (bool, Event):
         """
         Accept an event. Return 
         """

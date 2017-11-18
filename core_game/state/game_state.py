@@ -1,5 +1,5 @@
-from core_game.action import Action
-from core_game.player import Player
+from core_game.state.action import Action
+from core_game.state.player import Player
 
 
 class GameState:
