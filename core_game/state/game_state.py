@@ -4,13 +4,15 @@ from core_game.cards.card import Card
 from core_game.events.event import Event
 from core_game.state.action import Action
 from core_game.state.player import Player
+from core_game.state.settings import SETTINGS
 
 
 class GameState:
-    def __init__(self, p0: Player, p1: Player, turn: int):
+    def __init__(self, p0: Player, p1: Player, turn: int, settings:SETTINGS):
         self.p0 = p0
         self.p1 = p1
         self.turn = turn
+        self.settings = SETTINGS
 
     def can_do(self, action: Action) -> bool:
         """

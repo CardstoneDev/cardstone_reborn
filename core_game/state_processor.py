@@ -1,4 +1,7 @@
-from core_game.state_serialization import string_to_action, string_to_game_state, game_state_to_string
+from core_game.state.settings import SETTINGS
+from core_game.state_serialization import string_to_action, string_to_game_state, game_state_to_string, \
+    deck_lists_to_game_state
+from game_types.default_settings import DefaultSettings
 
 
 def confirm(action_str: str, state_str: str) -> bool:
@@ -10,6 +13,9 @@ def confirm(action_str: str, state_str: str) -> bool:
     state = string_to_game_state(state_str)
     return state.can_do(action)
 
+def make_new_game(deck_list0: str, deck_list1: str,settings:str) -> str:
+    state = deck_lists_to_game_state(deck_list0,deck_list1, settings)
+    return game_state_to_string(state)
 
 def process(action_str: str, state_str: str) -> str:
     """
