@@ -1,8 +1,8 @@
 import json
-
 from core_game.events.event import Event
-from core_game.state.game_state import GameState
-
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from core_game.state.game_state import GameState
 
 class Action:
     def __init__(self, action_str: str):
@@ -24,7 +24,7 @@ class Action:
         #                "target": self.target,
         #                "activate": self.activate}
 
-    def get_event(self, state: GameState) -> Event:
+    def get_event(self, state: 'GameState') -> 'Event':
         return Event(self.type, self.details)
 
         # def play(self,state : GameState) -> Event:

@@ -1,27 +1,27 @@
 from collections import deque
-
-from core_game.cards.card import Card
-from core_game.events.event import Event
-from core_game.state.action import Action
-from core_game.state.player import Player
-from core_game.state.settings import SETTINGS
-
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from core_game.cards.card import Card
+    from core_game.events.event import Event
+    from core_game.state.action import Action
+    from core_game.state.player import Player
+    from core_game.state.settings import SETTINGS
 
 class GameState:
-    def __init__(self, p0: Player, p1: Player, turn: int, settings:SETTINGS):
+    def __init__(self, p0: 'Player', p1: 'Player', turn: int, settings:'SETTINGS'):
         self.p0 = p0
         self.p1 = p1
         self.turn = turn
-        self.settings = SETTINGS
+        self.settings = settings
 
-    def can_do(self, action: Action) -> bool:
+    def can_do(self, action: 'Action') -> bool:
         """
         Takes in an action and returns true if that action can be
         performed on this state, false otherwise.
         """
         pass
- 
-    def preprocess_event(self, event: Event) -> Event:
+
+    def preprocess_event(self, event: 'Event') -> 'Event':
         already_processed = set()  # type: set[Card]
         done = False
         while not done:
@@ -37,15 +37,15 @@ class GameState:
                 done = True
         return event
 
-    def perform_event(self,event : Event):
+    def perform_event(self,event : 'Event'):
         event.perform(self, event.variables)
 
-    def respond_to_event(self, event: Event) -> list[Event]:
+    def respond_to_event(self, event: 'Event') -> 'list[Event]':
         lst = self.p1.respond_to_event(event, self)
         lst += self.p0.respond_to_event(event, self)
         return lst
 
-    def do(self, action: Action) -> str:
+    def do(self, action: 'Action') -> str:
         """
         Takes in an action and attempts to perform that action on this state.
         If the action was performed successfully, returns None

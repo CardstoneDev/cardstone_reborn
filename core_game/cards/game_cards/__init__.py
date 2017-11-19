@@ -1,1 +1,1 @@
-from creatures.neutral import *
+from .creatures.neutral import *

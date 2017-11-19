@@ -1,7 +1,7 @@
 from core_game.state.settings import SETTINGS
 from core_game.state_serialization import string_to_action, string_to_game_state, game_state_to_string, \
     deck_lists_to_game_state
-from game_types.default_settings import DefaultSettings
+from core_game.game_types.default_settings import DefaultSettings
 
 
 def confirm(action_str: str, state_str: str) -> bool:

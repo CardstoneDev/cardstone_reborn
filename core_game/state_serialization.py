@@ -8,7 +8,7 @@ from core_game.state.player import Player
 from core_game.state.player_cards import PlayerCards
 from core_game.state.settings import SETTINGS
 from core_game.devotions.no_devotion import NoDevotion
-from core_game.game_types import *
+from core_game.game_types.default_settings import DefaultSettings
 from core_game.cards.game_cards import *
 
 def string_to_action(input: str) -> Action:

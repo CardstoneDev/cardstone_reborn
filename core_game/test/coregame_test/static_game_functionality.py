@@ -1,15 +1,11 @@
 import unittest
-
 from core_game.state.game_state import GameState
 from core_game.state_processor import make_new_game
 from core_game.state_serialization import string_to_game_state, game_state_to_string
-from test.coregame_test.utils import make_demo_game, state_equality_check
+from core_game.test.coregame_test.utils import make_demo_game, state_equality_check
 
 
 class TestStaticGameFunctionality(unittest.TestCase):
-
-
-
     def test_serializing_in_and_out(self):
         state_original = make_demo_game()
         serial_state = game_state_to_string(state_original)
@@ -37,5 +33,10 @@ class TestStaticGameFunctionality(unittest.TestCase):
         self.assertEquals(len(state_original.p1.cards.graveyard.cards),0)
         self.assertEquals(len(state_original.p1.cards.auras.cards),0)
 
+def do_test():
+    tst = TestStaticGameFunctionality()
+    tst.test_serializing_in_and_out()
+    tst.test_basic_game_state_creation()
+
 if __name__ == '__main__':
-    unittest.main()
+    do_test()
