@@ -11,10 +11,9 @@ from core_game.state.card_list import CardList
 
 class Card(abc.ABC):
     # TODO: clean up abstractmethods
-    def __init__(self, preprocessors: dict[str, EventPreprocessor],
-                 responders: dict[str, EventResponder], owner: Player):
-        self.preprocessors = preprocessors
-        self.responders = responders
+    def __init__(self, owner: Player):
+        self.preprocessors = {} #type: dict[str, EventPreprocessor]
+        self.responders = {} #type: dict[str,EventResponder]
         self.owner = owner
 
     @abc.abstractmethod

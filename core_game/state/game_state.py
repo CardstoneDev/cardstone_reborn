@@ -37,7 +37,10 @@ class GameState:
                 done = True
         return event
 
-    def handle_event(self, event: Event) -> list[Event]:
+    def perform_event(self,event : Event):
+        event.perform(self, event.variables)
+
+    def respond_to_event(self, event: Event) -> list[Event]:
         lst = self.p1.respond_to_event(event, self)
         lst += self.p0.respond_to_event(event, self)
         return lst
@@ -57,7 +60,8 @@ class GameState:
             while len(events_to_do) != 0:
                 event = events_to_do.popleft()
                 event = self.preprocess_event(event)
-                new_events = self.handle_event(event)
+                self.perform_event(event)
+                new_events = self.respond_to_event(event)
                 for elt in new_events:
                     events_to_do.append(elt)
         except:
