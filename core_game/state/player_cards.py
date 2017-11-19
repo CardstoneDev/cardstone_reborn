@@ -28,7 +28,6 @@ class PlayerCards:
 
     def respond_to_event(self, event: Event, state: GameState) -> list[Event]:
         lst = []
-        for elt in self.all_zones:
-            for card in elt.cards:
-                lst += card.preprocess_event(event, state)
+        for card_list in self.all_zones:
+            lst += card_list.respond_to_event(event, state)
         return lst

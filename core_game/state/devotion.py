@@ -4,7 +4,7 @@ from core_game.events.event import Event
 from core_game.state.action import Action
 
 
-class Devotion(abc):
+class Devotion(abc.ABC):
     def allow_action(self, action: Action) -> bool:
         return True
 

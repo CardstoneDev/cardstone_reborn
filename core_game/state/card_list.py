@@ -2,7 +2,6 @@ from core_game.cards.card import Card
 from core_game.events.event import Event
 from core_game.state.game_state import GameState
 
-
 class CardList:
     def __init__(self, cards: list[Card], zone: str):
         self.cards = cards
@@ -15,10 +14,16 @@ class CardList:
         event, containing that card and the new version of the event.
         If no cards want to modify it, returns the original event and none of
         """
-        for elt in self.cards:
-            if elt not in already_processed:
-                changed, event = elt.preprocess_event(event, state, self.zone)
+        for card in self.cards:
+            if card not in already_processed:
+                changed, event = card.preprocess_event(event, state, self.zone)
                 if changed:
-                    return (elt, event)
+                    return (card, event)
 
         return (None, event)
+
+    def respond_to_event(self, event: Event, state: GameState) -> list[Event]:
+        lst = []
+        for card in self.cards:
+            lst += card.respond_to_event(event, state, self.zone)
+        return lst
