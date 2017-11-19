@@ -5,7 +5,7 @@ from core_game.state.card_list import CardList
 
 class EventPreprocessor:
 
-    def __init__(self, res : callable[[Event, GameState, dict, str, Card], (bool, Event)]):
+    def __init__(self, res : callable[[Event, GameState, dict, CardList, Card], (bool, Event)]):
         self.preprocessor = res
         self.stored_state = {}
 

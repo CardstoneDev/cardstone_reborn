@@ -4,7 +4,7 @@ from core_game.cards import Card
 from core_game.state.card_list import CardList
 
 class EventResponder:
-    def __init__(self, res : callable[[Event, GameState, dict, str, Card], list[Event]]):
+    def __init__(self, res : callable[[Event, GameState, dict, CardList, Card], list[Event]]):
         self.response = res
         self.stored_state = {}
 
