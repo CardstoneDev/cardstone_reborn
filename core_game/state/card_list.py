@@ -4,8 +4,9 @@ from core_game.state.game_state import GameState
 
 
 class CardList:
-    def __init__(self, cards: list[Card]):
+    def __init__(self, cards: list[Card], zone: str):
         self.cards = cards
+        self.zone = zone
 
     # TODO convenience functions as needed
     def preprocess_event(self, event: Event, state: GameState, already_processed: set[Card]) -> (Card, Event):
@@ -16,7 +17,7 @@ class CardList:
         """
         for elt in self.cards:
             if elt not in already_processed:
-                changed, event = elt.preprocess_event(event, state)
+                changed, event = elt.preprocess_event(event, state, self.zone)
                 if changed:
                     return (elt, event)
 

@@ -34,15 +34,15 @@ class Card(abc):
     def allow_action(self, action: Action) -> bool:
         return True
 
-    def preprocess_event(self, event: Event, state: GameState) -> (bool, Event):
+    def preprocess_event(self, event: Event, state: GameState, zone : str) -> (bool, Event):
         """
         Accept an event. Return 
         """
         type = event.type
         if type in self.preprocessors:
-            responded, event = self.responders[type].respond_to_event(event, state)
-            if responded:
-                return responded, event
+            preprocessed, event = self.preprocessors[type].preprocess_event(event, state, zone, self)
+            if preprocessed:
+                return preprocessed, event
         return (False, event)
 
     def respond_to_event(self, event: Event, state: GameState) -> list[Event]:

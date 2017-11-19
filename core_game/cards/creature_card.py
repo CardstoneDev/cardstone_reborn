@@ -14,4 +14,4 @@ def default_summon(event: Event, state: GameState, stored_state, owner: Card):
 class CreatureCard(Card):
     def __init__(self):
         super()
-        self.responders["card_played"] =
+        self.responders["card_played"] = default_summon
