@@ -7,7 +7,7 @@ if TYPE_CHECKING:
 
 class EventPreprocessor:
 
-    def __init__(self, res : callable[['Event', 'GameState', dict, 'CardList', 'Card'], (bool, 'Event')]):
+    def __init__(self, res : "callable[['Event', 'GameState', dict, 'CardList', 'Card'], (bool, 'Event')]"):
         self.preprocessor = res
         self.stored_state = {}
 

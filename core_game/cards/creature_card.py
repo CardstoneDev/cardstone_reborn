@@ -10,7 +10,7 @@ if TYPE_CHECKING:
     from core_game.state.player import Player
 
 
-def default_on_play(event: 'Event', state: 'GameState', stored_state: dict, zone: 'CardList', owner: 'Card') -> list['Event']:
+def default_on_play(event: 'Event', state: 'GameState', stored_state: dict, zone: 'CardList', owner: 'Card') -> "list['Event']":
     #TODO: onself(moveself)
     """
     The default responder to any card being played

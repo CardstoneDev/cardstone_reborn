@@ -29,8 +29,8 @@ def state_equality_check(state1:GameState,state2:GameState,assertion_unit:unitte
 
 def make_demo_game() -> GameState:
     state_str = make_new_game(
-        "draw_1_creature,draw_1_creature,draw_1_creature,draw_1_creature,deal_2_spell,deal_2_spell,deal_2_spell",
-        "draw_1_creature,draw_1_creature,draw_1_creature,draw_1_creature,deal_2_spell,deal_2_spell,deal_2_spell",
+        "[\"DrawCreature\",\"DrawCreature\",\"DrawCreature\",\"DrawCreature\",\"DrawCreature\",\"DrawCreature\",\"DrawCreature\"]",
+        "[\"DrawCreature\",\"DrawCreature\",\"DrawCreature\",\"DrawCreature\",\"DrawCreature\",\"DrawCreature\",\"DrawCreature\"]",
         "DefaultSettings")
 
     return string_to_game_state(state_str)

@@ -10,7 +10,7 @@ if TYPE_CHECKING:
     from core_game.state.player import Player
     from core_game.state.card_list import CardList
 
-def default_on_play(event: 'Event', state: 'GameState', stored_state: dict, zone: 'CardList', owner: 'Card') -> list['Event']:
+def default_on_play(event: 'Event', state: 'GameState', stored_state: dict, zone: 'CardList', owner: 'Card') -> 'list[Event]':
     #TODO: onself(spend_own_cost)
     """
     The default responder to any card being played
@@ -26,7 +26,7 @@ class Card(abc.ABC):
     def __init__(self, owner: 'Player', cost: int):
         self.preprocessors = {} #type: dict[str, 'EventPreprocessor']
         self.responders = {} #type: dict[str,'EventResponder']
-        self.responders['on_play'] = default_on_play
+        self.responders['card_played'] = default_on_play
         self.owner = owner
         self.cost = cost
 
@@ -69,7 +69,7 @@ class Card(abc.ABC):
                 return preprocessed, event
         return (False, event)
 
-    def respond_to_event(self, event: 'Event', state: 'GameState', zone: 'CardList') -> list['Event']:
+    def respond_to_event(self, event: 'Event', state: 'GameState', zone: 'CardList') -> 'list[Event]':
         """
         Accept an event. Return a list of new events
         that this card wishes to create and add to the event q.

@@ -8,8 +8,9 @@ from core_game.state.player import Player
 from core_game.state.player_cards import PlayerCards
 from core_game.state.settings import SETTINGS
 from core_game.devotions.no_devotion import NoDevotion
+# TODO: Generalize this
 from core_game.game_types.default_settings import DefaultSettings
-from core_game.cards.game_cards import *
+from core_game.cards.game_cards.creatures.neutral.draw_creature import DrawCreature
 
 def string_to_action(input: str) -> Action:
     return Action(input)
@@ -26,7 +27,9 @@ def parse_settings(settings_str: str) -> SETTINGS:
     return eval(settings_str + "()")
 
 def parse_deck_list(deck_list_str: str,player : Player) -> CardList:
-    return CardList([eval(x+"(player)") for x in json.loads(deck_list_str)])
+    global p
+    p = player
+    return CardList([eval(x+"(p)") for x in json.loads(deck_list_str)])
 
 
 def deck_lists_to_game_state(deck_list0_str:str,deck_list1_str:str,settings_str:str) -> GameState:
