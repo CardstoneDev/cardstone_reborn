@@ -1,5 +1,5 @@
 import abc
-class SETTINGS:
+class SETTINGS(abc.ABC):
     @abc.abstractmethod
     def get_initial_hand_size(self):
         pass
