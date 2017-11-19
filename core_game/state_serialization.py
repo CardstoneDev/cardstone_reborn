@@ -26,7 +26,7 @@ def parse_settings(settings_str: str) -> SETTINGS:
     return eval(settings_str + "()")
 
 def parse_deck_list(deck_list_str: str,player : Player) -> CardList:
-    return [eval(x+"(player)") for x in json.loads(deck_list_str)]
+    return CardList([eval(x+"(player)") for x in json.loads(deck_list_str)])
 
 
 def deck_lists_to_game_state(deck_list0_str:str,deck_list1_str:str,settings_str:str) -> GameState:

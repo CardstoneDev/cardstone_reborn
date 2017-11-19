@@ -1,6 +1,4 @@
 import unittest
-from core_game.state.game_state import GameState
-from core_game.state_processor import make_new_game
 from core_game.state_serialization import string_to_game_state, game_state_to_string
 from core_game.test.coregame_test.utils import make_demo_game, state_equality_check
 
