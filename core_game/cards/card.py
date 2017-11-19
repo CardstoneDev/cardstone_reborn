@@ -3,18 +3,31 @@ import abc
 from core_game.events.event import Event
 from core_game.events.event_preprocessor import EventPreprocessor
 from core_game.events.event_responder import EventResponder
+from core_game.events.event_utils import mana_spend_event
 from core_game.state.action import Action
 from core_game.state.game_state import GameState
 from core_game.state.player import Player
 from core_game.state.card_list import CardList
 
+def default_on_play(event: Event, state: GameState, stored_state: dict, zone: CardList, owner: Card) -> list[Event]:
+    #TODO: onself(spend_own_cost)
+    """
+    The default responder to any card being played
+    """
+    res = []
+    if event.variables['card'].get_id() == owner.get_id():
+        res += mana_spend_event(owner.get_owner(), owner.get_cost())
+    return res
 
 class Card(abc.ABC):
     # TODO: clean up abstractmethods
-    def __init__(self, owner: Player):
+    # TODO: builder for cards
+    def __init__(self, owner: Player, cost: int):
         self.preprocessors = {} #type: dict[str, EventPreprocessor]
         self.responders = {} #type: dict[str,EventResponder]
+        self.responders['on_play'] = default_on_play
         self.owner = owner
+        self.cost = cost
 
     @abc.abstractmethod
     def get_name(self) -> str:

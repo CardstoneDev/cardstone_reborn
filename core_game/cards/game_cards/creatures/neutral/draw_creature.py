@@ -5,6 +5,6 @@ from core_game.events.event_responder_utils import on_self, draw_cards
 
 
 class DrawCreature(CreatureCard):
-    def __init__(self,owner : Player):
-        super(owner)
-        self.responders['card_played'] = EventResponder(on_self(self,draw_cards(owner, 1)))
+    def __init__(self, owner: Player):
+        super(DrawCreature, self).__init__(owner, 2, 2, 2)
+        self.responders['card_played'] = EventResponder(on_self(self, draw_cards(owner, 1)))
