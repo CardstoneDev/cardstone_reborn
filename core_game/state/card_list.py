@@ -3,9 +3,8 @@ from core_game.events.event import Event
 from core_game.state.game_state import GameState
 
 class CardList:
-    def __init__(self, cards: list[Card], zone: str):
+    def __init__(self, cards: list[Card]):
         self.cards = cards
-        self.zone = zone
 
     # TODO convenience functions as needed
     def preprocess_event(self, event: Event, state: GameState, already_processed: set[Card]) -> (Card, Event):
@@ -16,7 +15,7 @@ class CardList:
         """
         for card in self.cards:
             if card not in already_processed:
-                changed, event = card.preprocess_event(event, state, self.zone)
+                changed, event = card.preprocess_event(event, state, self)
                 if changed:
                     return (card, event)
 
@@ -25,5 +24,5 @@ class CardList:
     def respond_to_event(self, event: Event, state: GameState) -> list[Event]:
         lst = []
         for card in self.cards:
-            lst += card.respond_to_event(event, state, self.zone)
+            lst += card.respond_to_event(event, state, self)
         return lst

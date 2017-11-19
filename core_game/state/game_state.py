@@ -20,7 +20,7 @@ class GameState:
         performed on this state, false otherwise.
         """
         pass
-
+ 
     def preprocess_event(self, event: Event) -> Event:
         already_processed = set()  # type: set[Card]
         done = False
