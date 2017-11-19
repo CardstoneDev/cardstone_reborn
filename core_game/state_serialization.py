@@ -1,4 +1,5 @@
 import json
+import pickle
 from core_game.state.action import Action
 from core_game.state.card_list import CardList
 from core_game.state.game_state import GameState
@@ -11,15 +12,15 @@ from core_game.game_types import *
 from core_game.cards.game_cards import *
 
 def string_to_action(input: str) -> Action:
-    pass
+    return Action(input)
 
 
 def string_to_game_state(input: str) -> GameState:
-    pass
+    return pickle.loads(input)
 
 
 def game_state_to_string(state: GameState) -> str:
-    pass
+    return pickle.dumps(state)
 
 def parse_settings(settings_str: str) -> SETTINGS:
     return eval(settings_str + "()")
