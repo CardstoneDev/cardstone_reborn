@@ -13,25 +13,12 @@ if TYPE_CHECKING:
     from core_game.state.card_list import CardList
 
 
-def default_on_play(event: 'Event', state: 'GameState', zone: 'CardList',
-                    owner: 'Card') -> 'list[Event]':
-    # TODO: onself(spend_own_cost)
-    """
-    The default responder to any card being played
-    """
-    res = []
-    if event.variables['card'].get_id() == owner.get_id():
-        res.append(mana_spend_event(owner.get_owner(), owner.get_cost()))
-    return res
-
-
 class Card(abc.ABC):
     # TODO: clean up abstractmethods
     # TODO: builder for cards
-    def __init__(self, owner: 'Player', cost: int, id:int):
+    def __init__(self, owner: 'Player', cost: int, id: int):
         self.preprocessors = {}  # type: dict[str, 'EventPreprocessor']
-        self.responders = {}  # type: dict[str,'EventResponder']
-        self.responders['card_played'] = BasicEventResponderLambda(default_on_play)
+        self.responders = {'card_played':BasicEventResponderLambda(default_on_play)}  # type: dict[str,'EventResponder']
         self.owner = owner
         self.cost = cost
         self.id = id
@@ -47,7 +34,7 @@ class Card(abc.ABC):
         """
         pass
 
-    def equals(self,other):
+    def equals(self, other):
         return self.get_id() == other.get_id()
 
     @abc.abstractmethod
@@ -77,7 +64,8 @@ class Card(abc.ABC):
                 return preprocessed, event
         return (False, event)
 
-    def respond_to_event(self, event: 'Event', state: 'GameState', zone: 'CardList') -> 'list[Event]':
+    def respond_to_event(self, event: 'Event', state: 'GameState', zone: 'CardList'
+                         ) -> 'list[Event]':
         """
         Accept an event. Return a list of new events
         that this card wishes to create and add to the event q.
@@ -87,3 +75,20 @@ class Card(abc.ABC):
         if type in self.responders:
             return self.responders[type].respond_to_event(event, state, zone, self)
         return []
+
+
+def default_on_play(event: 'Event', state: 'GameState', zone: 'CardList',
+                    owner: 'Card') -> 'list[Event]':
+    # TODO: onself(spend_own_cost)
+
+    """
+    :param event:
+    :param state:
+    :param zone:
+    :param owner:
+    :return:
+    """
+    res = []
+    if event.variables['card'].get_id() == owner.get_id():
+        res.append(mana_spend_event(owner.get_owner(), owner.get_cost()))
+    return res

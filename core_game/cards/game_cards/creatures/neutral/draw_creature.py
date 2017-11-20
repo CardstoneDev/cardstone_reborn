@@ -10,10 +10,13 @@ if TYPE_CHECKING:
 
 
 class DrawCreature(CreatureCard):
+    """
+    A simple 1/1 for 1 that draws a card on play.
+    """
     def __init__(self, owner: 'Player', id : int):
         super(DrawCreature, self).__init__(owner, 1, 1, 1,id)
         self.responders['card_played'] = EventResponder(Both(
-            self.responders['card_played'], OnSelf(self, DrawCards(owner, 1))))
+            self.responders['card_played'], OnSelf(DrawCards(owner, 1))))
 
     def get_image(self):
         return None
