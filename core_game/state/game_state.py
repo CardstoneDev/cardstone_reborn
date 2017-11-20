@@ -8,11 +8,13 @@ if TYPE_CHECKING:
     from core_game.state.settings import SETTINGS
 
 class GameState:
-    def __init__(self, p0: 'Player', p1: 'Player', turn: int, settings:'SETTINGS'):
+    def __init__(self, p0: 'Player', p1: 'Player', turn: int, settings:'SETTINGS',cur_id : int):
         self.p0 = p0
         self.p1 = p1
         self.turn = turn
         self.settings = settings
+        self.cur_id = cur_id
+
 
     def can_do(self, action: 'Action') -> bool:
         """
@@ -54,15 +56,37 @@ class GameState:
         indicates player 0 won and 1 indicates player 1 won.
         If the action requires further input from one or both of the players, the resulting GameState will reflect this.
         """
-        try:
-            events_to_do = deque()  # type: deque[Event]
-            events_to_do.append(action.get_event(self))
-            while len(events_to_do) != 0:
-                event = events_to_do.popleft()
-                event = self.preprocess_event(event)
-                self.perform_event(event)
-                new_events = self.respond_to_event(event)
-                for elt in new_events:
-                    events_to_do.append(elt)
-        except:
-            return "error: fuck"
+        events_to_do = deque()  # type: deque[Event]
+        events_to_do.append(action.get_event(self))
+        while len(events_to_do) != 0:
+            event = events_to_do.popleft()
+            event = self.preprocess_event(event)
+            self.perform_event(event)
+            new_events = self.respond_to_event(event)
+            for elt in new_events:
+                events_to_do.append(elt)
+
+
+    def draw_starting_cards(self):
+        for x in range(self.settings.get_initial_hand_size()):
+            self.p0.cards.hand.cards.append(self.p0.cards.deck.cards.pop())
+            self.p1.cards.hand.cards.append(self.p1.cards.deck.cards.pop())
+
+        active = self.get_active_player()
+        active.cards.hand.cards.append(active.cards.deck.cards.pop())
+
+    def get_active_player(self):
+        if self.turn == 0:
+            return self.p0
+        return self.p1
+
+    def get_card_by_id(self, id):
+        for card_list in self.p0.cards.all_zones:
+            for card in card_list.cards:
+                if card.get_id() == id:
+                    return card
+        for card_list in self.p1.cards.all_zones:
+            for card in card_list.cards:
+                if card.get_id() == id:
+                    return card
+

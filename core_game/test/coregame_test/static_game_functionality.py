@@ -20,7 +20,7 @@ class TestStaticGameFunctionality(unittest.TestCase):
                           7 - state_original.settings.get_initial_hand_size())
         self.assertEquals(state_original.p0.health,state_original.settings.get_initial_health())
         self.assertEquals(state_original.p1.health,state_original.settings.get_initial_health())
-        self.assertEquals(state_original.p0.mana.full_crystals,state_original.settings.get_initial_mana())
+        self.assertEquals(state_original.p0.mana.full_crystals,state_original.settings.get_initial_mana()+1)
         self.assertEquals(state_original.p1.mana.full_crystals,0)
         self.assertEquals(type(state_original.p0.devotion).__name__,"NoDevotion")
         self.assertEquals(type(state_original.p1.devotion).__name__,"NoDevotion")

@@ -1,5 +1,7 @@
+from core_game.events.event_responder import EventResponderLambda
 from core_game.events.event_utils import card_draw_event
 from typing import TYPE_CHECKING
+
 if TYPE_CHECKING:
     from core_game.cards.card import Card
     from core_game.events.event import Event
@@ -13,30 +15,35 @@ if TYPE_CHECKING:
 """
 
 
-def r_and(sub1: "callable[['Event', 'GameState', dict, 'CardList', 'Card'], list['Event']]",
-          sub2: "callable[['Event', 'GameState', dict, 'CardList', 'Card'], list['Event']]"
-          ) -> "callable[['Event', 'GameState', dict, 'CardList', 'Card'], list['Event']]":
-    def result(event: 'Event', state: 'GameState', variables: dict, zone: 'CardList', card: 'Card') -> "list['Event']":
-        res_list = []
-        res_list += sub1(event, state, variables, zone, card)
-        res_list += sub2(event, state, variables, zone, card)
-        return res_list
+class Both(EventResponderLambda):
+    def __init__(self, sub1, sub2):
+        self.sub1 = sub1
+        self.sub2 = sub2
 
-    return result
+    def respond(self, event, state, zone, owner):
+        res = []
+        res += self.sub1.respond(event, state, zone, owner)
+        res += self.sub2.respond(event, state, zone, owner)
+        return res
 
 
-def on_self(self_card: 'Card', res: "callable[['Event', 'GameState', dict, 'CardList', 'Card'], list['Event']]"
-            ) -> "callable[['Event', 'GameState', dict, 'CardList', 'Card'], list['Event']]":
-    def result(event: 'Event', state: 'GameState', variables: dict, zone: 'CardList', card: 'Card') -> "list['Event']":
-        if self_card.get_id() == card.get_id():
-            return res(event, state, variables, zone, card)
+class OnSelf(EventResponderLambda):
+    def __init__(self,card,res):
+        self.card = card
+        self.res = res
+
+    def respond(self,event,state,zone,card):
+        if "card" in event.variables:
+            occurred_to = event.variables["card"]
+            if self.card.equals(occurred_to):
+                return self.res.respond(event,state,zone,card)
         return []
 
-    return result
 
+class DrawCards(EventResponderLambda):
+    def __init__(self,player,number):
+        self.player = player
+        self.number = number
 
-def draw_cards(player: 'Player', number: int) -> "callable[['Event', 'GameState', dict, 'CardList', 'Card'], list['Event']]":
-    def result(event: 'Event', state: 'GameState', variables: dict, zone: 'CardList', card: 'Card') -> "list['Event']":
-        return [card_draw_event(player)] * number
-
-    return result
+    def respond(self,event,state,zone,card):
+        return [card_draw_event(self.player)] * self.number

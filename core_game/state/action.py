@@ -25,7 +25,13 @@ class Action:
         #                "activate": self.activate}
 
     def get_event(self, state: 'GameState') -> 'Event':
-        return Event(self.type, self.details)
+        e = Event(self.type, self.details,lambda a,b: None)
+        for elt in e.variables:
+            if elt == "card_id":
+                c = state.get_card_by_id(e.variables[elt])
+                e.variables['card'] = c
+                break
+        return e
 
         # def play(self,state : GameState) -> Event:
         #     """

@@ -14,4 +14,5 @@ class Player:
         self.health = health
 
     def respond_to_event(self, event: 'Event', state: 'GameState') -> 'list[Event]':
-        return self.cards.respond_to_event(event, state) + self.devotion.respond_to_event(event, state)
+        card_ress =  self.cards.respond_to_event(event, state)
+        return card_ress + self.devotion.respond_to_event(event, state)

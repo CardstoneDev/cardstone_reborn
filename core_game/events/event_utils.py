@@ -35,8 +35,8 @@ def move_card(state: 'GameState', variables: dict):
     card = variables['card']
     start_zone = variables['start_zone']
     end_zone = variables['end_zone']
-    start_zone.remove(card)
-    end_zone.append(card)
+    start_zone.cards.remove(card)
+    end_zone.cards.append(card)
 
 
 def spend_mana(state: 'GameState', variables: dict):

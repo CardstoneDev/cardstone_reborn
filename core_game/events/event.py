@@ -5,7 +5,9 @@ if TYPE_CHECKING:
 
 
 class Event:
+    #events never get held so they may be lambdas
     def __init__(self, type: str, variables: {},perform : 'callable[GameState,dict]'):
         self.type = type
         self.variables = variables
+        #TODO
         self.perform = perform

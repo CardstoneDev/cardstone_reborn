@@ -11,10 +11,14 @@ class Devotion(abc.ABC):
         return True
 
     @abc.abstractmethod
-    def respond_to_event(self, event: 'Event') -> 'list[Event]':
+    def respond_to_event(self, event: 'Event', state) -> 'list[Event]':
         """
         Accept an event. Return a list of new events
         that this card wishes to create and add to the event q.
         This list may be empty.
         """
+        pass
+
+    @abc.abstractmethod
+    def equals(self,other):
         pass

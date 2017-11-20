@@ -24,8 +24,8 @@ def state_equality_check(state1:GameState,state2:GameState,assertion_unit:unitte
     assertion_unit.assertEquals(state1.p0.mana.empty_crystals,state2.p0.mana.empty_crystals)
     assertion_unit.assertEquals(state1.p1.mana.full_crystals,state2.p1.mana.full_crystals)
     assertion_unit.assertEquals(state1.p1.mana.empty_crystals,state2.p1.mana.empty_crystals)
-    assertion_unit.assertEquals(state1.p0.devotion,state2.p0.devotion)
-    assertion_unit.assertEquals(state1.p1.devotion,state2.p1.devotion)
+    assertion_unit.assertTrue(state1.p0.devotion.equals(state2.p0.devotion))
+    assertion_unit.assertTrue(state1.p1.devotion.equals(state2.p1.devotion))
 
 def make_demo_game() -> GameState:
     state_str = make_new_game(
