@@ -1,5 +1,6 @@
 from collections import deque
 from typing import TYPE_CHECKING
+
 if TYPE_CHECKING:
     from core_game.cards.card import Card
     from core_game.events.event import Event
@@ -7,14 +8,14 @@ if TYPE_CHECKING:
     from core_game.state.player import Player
     from core_game.state.settings import SETTINGS
 
+
 class GameState:
-    def __init__(self, p0: 'Player', p1: 'Player', turn: int, settings:'SETTINGS',cur_id : int):
+    def __init__(self, p0: 'Player', p1: 'Player', turn: int, settings: 'SETTINGS', cur_id: int):
         self.p0 = p0
         self.p1 = p1
         self.turn = turn
         self.settings = settings
         self.cur_id = cur_id
-
 
     def can_do(self, action: 'Action') -> bool:
         """
@@ -39,7 +40,7 @@ class GameState:
                 done = True
         return event
 
-    def perform_event(self,event : 'Event'):
+    def perform_event(self, event: 'Event'):
         event.perform(self, event.variables)
 
     def respond_to_event(self, event: 'Event') -> 'list[Event]':
@@ -66,12 +67,12 @@ class GameState:
             for elt in new_events:
                 events_to_do.append(elt)
 
+    ########################## STATE UTILS ##################################
 
     def draw_starting_cards(self):
         for x in range(self.settings.get_initial_hand_size()):
             self.p0.cards.hand.cards.append(self.p0.cards.deck.cards.pop())
             self.p1.cards.hand.cards.append(self.p1.cards.deck.cards.pop())
-
         active = self.get_active_player()
         active.cards.hand.cards.append(active.cards.deck.cards.pop())
 
@@ -89,4 +90,3 @@ class GameState:
             for card in card_list.cards:
                 if card.get_id() == id:
                     return card
-

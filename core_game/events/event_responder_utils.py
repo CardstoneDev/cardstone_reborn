@@ -20,6 +20,18 @@ class Both(EventResponderLambda):
         self.sub2 = sub2
 
     def respond(self, event, state, zone, card):
+        """
+        :param event:
+        :type event: core_game.events.event.Event
+        :param state:
+        :type state: core_game.state.game_state.GameState
+        :param zone:
+        :type zone: core_game.state.card_list.CardList
+        :param card:
+        :type card: core_game.cards.game_cards.creatures.neutral.draw_creature.DrawCreature
+        :return:
+        :rtype: List
+        """
         res = []
         res += self.sub1.respond(event, state, zone, card)
         res += self.sub2.respond(event, state, zone, card)
@@ -28,6 +40,10 @@ class Both(EventResponderLambda):
 
 class OnSelf(EventResponderLambda):
     def __init__(self, res):
+        """
+        :param res:
+        :type res: EventResponderLambda
+        """
         self.res = res
 
     def respond(self, event, state, zone, card):
@@ -96,4 +112,10 @@ class DrawCards(EventResponderLambda):
 
 
 def owner_creatures(card):
+    """
+    :param card:
+    :type card: core_game.cards.game_cards.creatures.neutral.draw_creature.DrawCreature
+    :return:
+    :rtype: core_game.state.card_list.CardList
+    """
     return card.get_owner().cards.creatures

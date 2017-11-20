@@ -54,15 +54,12 @@ class Card(abc.ABC):
         return True
 
     def preprocess_event(self, event: 'Event', state: 'GameState', zone: 'CardList') -> (bool, 'Event'):
-        """
-        Accept an event. Return
-        """
         type = event.type
         if type in self.preprocessors:
             preprocessed, event = self.preprocessors[type].preprocess_event(event, state, zone, self)
             if preprocessed:
                 return preprocessed, event
-        return (False, event)
+        return False, event
 
     def respond_to_event(self, event: 'Event', state: 'GameState', zone: 'CardList'
                          ) -> 'list[Event]':
@@ -80,14 +77,6 @@ class Card(abc.ABC):
 def default_on_play(event: 'Event', state: 'GameState', zone: 'CardList',
                     owner: 'Card') -> 'list[Event]':
     # TODO: onself(spend_own_cost)
-
-    """
-    :param event:
-    :param state:
-    :param zone:
-    :param owner:
-    :return:
-    """
     res = []
     if event.variables['card'].get_id() == owner.get_id():
         res.append(mana_spend_event(owner.get_owner(), owner.get_cost()))
