@@ -1,4 +1,4 @@
-from core_game.events.event import Event
+from core_game.events.event import Event, SignalEvent
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -27,11 +27,29 @@ def card_draw_event(player: 'Player') -> 'Event':
     return Event("card_draw", {"player": player}, draw_card)
 
 
+def creature_attack_event(attacker: 'Card', target: 'Card'):
+    return SignalEvent("creature_attack", {'attacker': attacker, "target": target})
+
+
+def creature_damage_event(creature: 'Card', damage: int):
+    return Event("creature_damage", {"creatue": creature, "damage": damage}, damage_creature)
+
+
+def creature_death_event(creature: 'Card'):
+    return SignalEvent("creature_death", {"creature": creature})
+
+
 """
 ##################################################################
 ########################### EVENT PERFORMERS #####################
 ##################################################################
 """
+
+
+def damage_creature(state: 'GameState', variables: dict):
+    creature = variables['creature']
+    damage = variables['damage']
+    creature.take_damage(damage)
 
 
 def move_card(state: 'GameState', variables: dict):

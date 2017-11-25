@@ -8,13 +8,13 @@ if TYPE_CHECKING:
     from core_game.state.player import Player
 
 
-
 class DrawCreature(CreatureCard):
     """
     A simple 1/1 for 1 that draws a card on play.
     """
-    def __init__(self, owner: 'Player', id : int):
-        super(DrawCreature, self).__init__(owner, 1, 1, 1,id)
+
+    def __init__(self, owner: 'Player', id: int):
+        super(DrawCreature, self).__init__(owner, 1, 2, 1, id)
         self.responders['card_played'] = EventResponder(Both(
             self.responders['card_played'], OnSelf(DrawCards(owner, 1))))
 

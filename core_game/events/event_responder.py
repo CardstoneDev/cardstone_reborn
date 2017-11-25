@@ -12,13 +12,13 @@ class EventResponder:
     def __init__(self, res):
         self.response = res
 
-    def respond_to_event(self, event: 'Event', state: 'GameState', zone: 'CardList', owner: 'Card'):
-        return self.response.respond(event, state, zone, owner)
+    def respond_to_event(self, event: 'Event', state: 'GameState', zone: 'CardList', card: 'Card'):
+        return self.response.respond(event, state, zone, card)
 
 
 class EventResponderLambda(abc.ABC):
     @abc.abstractmethod
-    def respond(self, event, state, zone, owner):
+    def respond(self, event, state, zone, card):
         pass
 
 
@@ -26,5 +26,5 @@ class BasicEventResponderLambda(EventResponderLambda):
     def __init__(self, res):
         self.res = res
 
-    def respond(self, event, state, zone, owner):
-        return self.res(event, state, zone, owner)
+    def respond(self, event, state, zone, card):
+        return self.res(event, state, zone, card)

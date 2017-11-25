@@ -11,3 +11,12 @@ class Event:
         self.variables = variables
         # TODO
         self.perform = perform
+
+
+def signal_event(state: 'GameState', variables: dict):
+    pass
+
+
+class SignalEvent(Event):
+    def __init__(self, type: str, variables: dict):
+        super(SignalEvent, self).__init__(type, variables, signal_event)
