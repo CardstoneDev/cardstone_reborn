@@ -1,6 +1,6 @@
-from core_game.events.event_responder import EventResponderLambda
+from core_game.events.event_responder import EventResponderLambda, PlayerEventResponderLambda
 from core_game.events.event_utils import card_draw_event, card_zone_change_event, creature_attack_event, \
-    creature_damage_event
+    creature_damage_event, mana_gain_empty_event, mana_refresh_event
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -50,7 +50,7 @@ class OnSelf(EventResponderLambda):
         :type own_tag
         """
         self.res = res
-        if type(own_tag) == "str":
+        if type(own_tag).__name__ == "str":
             self.own_tags = [own_tag]
         else:
             self.own_tags = own_tag
@@ -149,6 +149,17 @@ class DrawCards(EventResponderLambda):
         :type event: core_game.events.event.Event
         """
         return [card_draw_event(self.player)] * self.number
+
+
+class DefaultPlayerTurnStartResponse(PlayerEventResponderLambda):
+    def __init__(self, player: 'Player'):
+        self.player = player
+
+    def respond(self, event: 'Event', state: 'GameState'):
+        if state.get_active_player().number == self.player.number:
+            return [card_draw_event(self.player), mana_gain_empty_event(self.player, 1, True), mana_refresh_event(
+                self.player, True)]
+        return []
 
 
 def owner_creatures(card):

@@ -15,9 +15,10 @@ class TestStaticGameFunctionality(unittest.TestCase):
         state_original = make_demo_game()
         self.assertEquals(len(state_original.p0.cards.hand.cards), state_original.settings.get_initial_hand_size() + 1)
         self.assertEquals(len(state_original.p1.cards.hand.cards), state_original.settings.get_initial_hand_size())
-        self.assertEquals(len(state_original.p0.cards.deck.cards),7 - state_original.settings.get_initial_hand_size() - 1)
+        self.assertEquals(len(state_original.p0.cards.deck.cards),13 - state_original.settings.get_initial_hand_size()
+                          - 1)
         self.assertEquals(len(state_original.p1.cards.deck.cards),
-                          7 - state_original.settings.get_initial_hand_size())
+                          13 - state_original.settings.get_initial_hand_size())
         self.assertEquals(state_original.p0.health,state_original.settings.get_initial_health())
         self.assertEquals(state_original.p1.health,state_original.settings.get_initial_health())
         self.assertEquals(state_original.p0.mana.full_crystals,state_original.settings.get_initial_mana()+1)

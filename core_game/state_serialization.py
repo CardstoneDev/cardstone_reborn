@@ -45,8 +45,8 @@ def deck_lists_to_game_state(deck_list0_str: str, deck_list1_str: str, settings_
     cur_id = 0
     settings = parse_settings(settings_str)
     init_mana = settings.get_initial_mana()
-    p0 = Player(None, NoDevotion(), ManaPool(init_mana, init_mana), settings.get_initial_health())
-    p1 = Player(None, NoDevotion(), ManaPool(init_mana, init_mana), settings.get_initial_health())
+    p0 = Player(None, NoDevotion(), ManaPool(init_mana, init_mana), settings.get_initial_health(),0)
+    p1 = Player(None, NoDevotion(), ManaPool(init_mana, init_mana), settings.get_initial_health(),1)
     player_cards0 = PlayerCards(parse_deck_list(deck_list0_str, p0, cur_id), CardList([]), CardList([]), CardList([]),
                                 CardList([]))
     cur_id += len(player_cards0.deck.cards)

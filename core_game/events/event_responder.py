@@ -9,16 +9,30 @@ if TYPE_CHECKING:
 
 
 class EventResponder:
-    def __init__(self, res):
+    def __init__(self, res:'EventResponderLambda'):
         self.response = res
 
     def respond_to_event(self, event: 'Event', state: 'GameState', zone: 'CardList', card: 'Card'):
         return self.response.respond(event, state, zone, card)
 
 
+class PlayerEventResponder:
+    def __init__(self, res:'PlayerEventResponderLambda'):
+        self.response = res
+
+    def respond_to_event(self, event: 'Event', state: 'GameState'):
+        return self.response.respond(event, state)
+
+
 class EventResponderLambda(abc.ABC):
     @abc.abstractmethod
     def respond(self, event, state, zone, card):
+        pass
+
+
+class PlayerEventResponderLambda(abc.ABC):
+    @abc.abstractmethod
+    def respond(self, event, state):
         pass
 
 

@@ -31,8 +31,10 @@ def state_equality_check(state1: GameState, state2: GameState, assertion_unit: u
 def make_demo_game() -> GameState:
     state_str = make_new_game(
         "[\"DrawCreature\",\"DrawCreature\",\"DrawCreature\",\"DrawCreature\",\"DrawCreature\",\"DrawCreature\","
+        "\"DrawCreature\",\"DrawCreature\",\"DrawCreature\",\"DrawCreature\",\"DrawCreature\",\"DrawCreature\","
         "\"DrawCreature\"]",
         "[\"DrawCreature\",\"DrawCreature\",\"DrawCreature\",\"DrawCreature\",\"DrawCreature\",\"DrawCreature\","
+        "\"DrawCreature\",\"DrawCreature\",\"DrawCreature\",\"DrawCreature\",\"DrawCreature\",\"DrawCreature\","
         "\"DrawCreature\"]",
         "DefaultSettings")
 

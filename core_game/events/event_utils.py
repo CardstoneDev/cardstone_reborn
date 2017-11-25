@@ -39,11 +39,48 @@ def creature_death_event(creature: 'Card'):
     return SignalEvent("creature_death", {"creature": creature})
 
 
+def turn_end_event():
+    return Event("end_turn", {}, end_turn)
+
+
+def turn_start_event():
+    return SignalEvent("start_turn", {})
+
+
+def mana_gain_empty_event(player: 'Player', amount: int, is_turn_start=False):
+    return Event("mana_gain_empty", {'player': player, 'amount': amount, "is_turn_state": is_turn_start},
+                 gain_empty_mana)
+
+
+def mana_refresh_event(player: 'Player', is_turn_start=False):
+    return Event("mana_refresh", {'player': player, 'is_turn_start': is_turn_start}, refresh_mana)
+
+
 """
 ##################################################################
 ########################### EVENT PERFORMERS #####################
 ##################################################################
 """
+
+
+def refresh_mana(state: 'GameState', variables: dict):
+    player = variables['player']
+    player.mana.full_crystals = player.mana.empty_crystals
+
+
+def gain_empty_mana(state: 'GameState', variables: dict):
+    amount = variables["amount"]
+    player = variables["player"]
+    player.mana.empty_crystals += amount
+
+
+def end_turn(state: 'GameState', variables: dict):
+    turn = state.turn
+    if turn == 1:
+        state.turn = 0
+    else:
+        state.turn = 1
+    return [turn_start_event()]
 
 
 def damage_creature(state: 'GameState', variables: dict):

@@ -1,6 +1,9 @@
 import json
-from core_game.events.event import Event
+from core_game.events.event import Event, SignalEvent
 from typing import TYPE_CHECKING
+
+from core_game.events.event_utils import turn_end_event
+
 if TYPE_CHECKING:
     from core_game.state.game_state import GameState
 
@@ -25,7 +28,9 @@ class Action:
         #                "activate": self.activate}
 
     def get_event(self, state: 'GameState') -> 'Event':
-        e = Event(self.type, self.details,lambda a,b: None)
+        if self.type == "end_turn":
+            return turn_end_event()
+        e = SignalEvent(self.type, self.details)
         for elt in e.variables:
             if elt == "card_id":
                 c = state.get_card_by_id(e.variables[elt])
